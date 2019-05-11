@@ -1,5 +1,5 @@
 {
-  "name": "@mapbox/vector-tile",
+  "name": "vector-tile-js",
   "description": "Parses vector tiles",
   "main": "index.js",
   "files": [

@@ -7,7 +7,7 @@ This library reads [Mapbox Vector Tiles](https://github.com/mapbox/vector-tile-s
 ## Example
 
 ```js
-import { VectorTile } from '@mapbox/vector-tile';
+import { VectorTile } from 'vector-tile-js';
 import { Pbf as Protobuf } from 'pbf';
 
 var tile = new VectorTile(new Protobuf(data));
