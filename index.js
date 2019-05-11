@@ -1,3 +1,3 @@
-module.exports.VectorTile = require('./lib/vectortile.js');
-module.exports.VectorTileFeature = require('./lib/vectortilefeature.js');
-module.exports.VectorTileLayer = require('./lib/vectortilelayer.js');
+export { VectorTile } from "./lib/vectortile.js";
+export { VectorTileFeature } from "./lib/vectortilefeature.js";
+export { VectorTileLayer } from "./lib/vectortilelayer.js";
