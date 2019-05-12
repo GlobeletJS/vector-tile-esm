@@ -41,7 +41,7 @@ An object that parses vector tile data and makes it readable.
 #### Constructor
 
 - **new VectorTile(protobuf[, end])** &mdash;
-  parses the vector tile data contained in the given [Protobuf](https://github.com/mapbox/pbf) object,
+  parses the vector tile data contained in the given [Protobuf](https://github.com/jjhembd/pbf) object,
   saving resulting layers in the created object as a `layers` property. Optionally accepts end index.
 
 #### Properties
@@ -80,6 +80,8 @@ An object that contains the data for a single feature.
 #### Methods
 
 - **loadGeometry()** &mdash; parses feature geometry and returns an array of
-  [Point](https://github.com/mapbox/point-geometry) arrays (with each point having `x` and `y` properties)
+  [Point](https://github.com/jjhembd/point-geometry) arrays (with each point having `x` and `y` properties)
 - **bbox()** &mdash; calculates and returns the bounding box of the feature in the form `[x1, y1, x2, y2]`
-- **toGeoJSON(x, y, z)** &mdash; returns a GeoJSON representation of the feature. (`x`, `y`, and `z` refer to the containing tile's index.)
+- **toGeoJSON(size[, sx, sy])** &mdash; returns a GeoJSON representation of the feature. 
+    - `size` &mdash; side length of the (square) area over which the tile's features will be rendered. 
+    - `sx`, `sy` &mdash; optionally specify the origin of the output coordinates within the (size x size) rendered area of the full tile.
