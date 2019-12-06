@@ -1,14 +1,27 @@
-# vector-tile
+# vector-tile-esm
 
-[![build status](https://secure.travis-ci.org/mapbox/vector-tile-js.svg)](http://travis-ci.org/mapbox/vector-tile-js) [![Coverage Status](https://coveralls.io/repos/mapbox/vector-tile-js/badge.svg)](https://coveralls.io/r/mapbox/vector-tile-js)
+Reads [Mapbox Vector Tiles] and allows access to the layers and features.
 
-This library reads [Mapbox Vector Tiles](https://github.com/mapbox/vector-tile-spec) and allows access to the layers and features.
+This module is a fork of [vector-tile-js], with several key changes:
+- Code is set up for ESM `import`, rather than CJS `require`. This allows it
+  to be imported dynamically (e.g., on [Observable]) without depending on a
+  third-party bundling service such as [bundle.run]
+- The VectorTileFeature.toGeoJSON() method behaves very differently, returning
+  pixel coordinates within a tile, rather than assuming Web Mercator and
+  attempting to back-project to longitude and latitude
+- The dependence on the [point-geometry] module has been **removed**
+
+[Mapbox Vector Tiles]: https://github.com/mapbox/vector-tile-spec
+[vector-tile-js]: https://github.com/mapbox/vector-tile-js
+[Observable]: https://observablehq.com
+[bundle.run]: https://bundle.run
+[point-geometry]: https://github.com/mapbox/point-geometry
 
 ## Example
 
 ```js
-import { VectorTile } from 'vector-tile-js';
-import { Pbf as Protobuf } from 'pbf';
+import { VectorTile } from 'vector-tile-esm';
+import Protobuf from 'pbf';
 
 var tile = new VectorTile(new Protobuf(data));
 
@@ -17,71 +30,71 @@ tile.layers;
 
 var landuse = tile.layers.landuse;
 
-// Amount of features in this layer
+// Number of features in this layer
 landuse.length;
 
 // Returns the first feature
 landuse.feature(0);
 ```
 
-## Install
-
-To install:
-
-    npm install jjhembd/vector-tile-js
-
-
 ## API Reference
+vector-tile-esm exposes 3 constructors: VectorTile, VectorTileLayer, and
+VectorTileFeature.
 
-
-### VectorTile
+## VectorTile
 
 An object that parses vector tile data and makes it readable.
 
-#### Constructor
+### Constructor
 
 - **new VectorTile(protobuf[, end])** &mdash;
-  parses the vector tile data contained in the given [Protobuf](https://github.com/jjhembd/pbf) object,
-  saving resulting layers in the created object as a `layers` property. Optionally accepts end index.
+  parses the vector tile data contained in the given [Protobuf] object,
+  saving resulting layers in the created object as a `layers` property. 
+  Optionally accepts end index.
 
-#### Properties
+[Protobuf]: https://github.com/mapbox/pbf
 
-- **layers** (Object) &mdash; an object containing parsed layers in the form of `{<name>: <layer>, ...}`,
-where each layer is a `VectorTileLayer` object.
+### Properties
 
+- **layers** (Object) &mdash; an object containing parsed layers in the form of 
+  `{<name>: <layer>, ...}`, where each layer is a `VectorTileLayer` object.
 
-### VectorTileLayer
+## VectorTileLayer
 
 An object that contains the data for a single vector tile layer.
 
-#### Properties
+### Properties
 
 - **version** (`Number`, default: `1`)
 - **name** (`String) `&mdash; layer name
 - **extent** (`Number`, default: `4096`) &mdash; tile extent size
 - **length** (`Number`) &mdash; number of features in the layer
 
-#### Methods
+### Methods
 
-- **feature(i)** &mdash; get a feature (`VectorTileFeature`) by the given index from the layer.
+- **feature(i)** &mdash; get a feature (`VectorTileFeature`) by the given index
+  from the layer.
 
-
-### VectorTileFeature
+## VectorTileFeature
 
 An object that contains the data for a single feature.
 
-#### Properties
+### Properties
 
 - **type** (`Number`) &mdash; type of the feature (also see `VectorTileFeature.types`)
 - **extent** (`Number`) &mdash; feature extent size
 - **id** (`Number`) &mdash; feature identifier, if present
 - **properties** (`Object`) &mdash; object literal with feature properties
 
-#### Methods
+### Methods
 
 - **loadGeometry()** &mdash; parses feature geometry and returns an array of
-  [Point](https://github.com/jjhembd/point-geometry) arrays (with each point having `x` and `y` properties)
-- **bbox()** &mdash; calculates and returns the bounding box of the feature in the form `[x1, y1, x2, y2]`
-- **toGeoJSON(size[, sx, sy])** &mdash; returns a GeoJSON representation of the feature. 
-    - `size` &mdash; side length of the (square) area over which the tile's features will be rendered. 
-    - `sx`, `sy` &mdash; optionally specify the origin of the output coordinates within the (size x size) rendered area of the full tile.
+  point objects, with each point having `x` and `y` properties
+- **bbox()** &mdash; calculates and returns the bounding box of the feature in 
+  the form `[x1, y1, x2, y2]`
+- **toGeoJSON(size[, sx, sy])** &mdash; returns a GeoJSON representation of the 
+  feature. 
+  - `size` &mdash; side length of the (square) area over which the tile's 
+    features will be rendered. 
+  - `sx`, `sy` &mdash; optionally specify the origin of the output coordinates 
+    within the (size x size) rendered area of the full tile.
