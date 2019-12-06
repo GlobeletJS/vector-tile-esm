@@ -9,7 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/jjhembd/vector-tile-js.git"
   },
-  "version": "1.3.2",
+  "version": "2.0.0",
   "license": "BSD-3-Clause",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
