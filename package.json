@@ -11,9 +11,6 @@
   },
   "version": "1.3.2",
   "license": "BSD-3-Clause",
-  "dependencies": {
-    "point-geometry": "github:jjhembd/point-geometry"
-  },
   "devDependencies": {
     "pbf": "github:jjhembd/pbf"
   },
