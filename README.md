@@ -74,6 +74,9 @@ An object that contains the data for a single vector tile layer.
 
 - **feature(i)** &mdash; get a feature (`VectorTileFeature`) by the given index
   from the layer.
+- **toGeoJSON(size[, sx, sy])** &mdash; Return a GeoJSON FeatureCollection
+  representing all the features in the layer. See the corresponding method of
+  VectorTileFeature for the parameters
 
 ## VectorTileFeature
 

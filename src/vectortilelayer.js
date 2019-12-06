@@ -55,3 +55,11 @@ VectorTileLayer.prototype.feature = function(i) {
   var end = this._pbf.readVarint() + this._pbf.pos;
   return new VectorTileFeature(this._pbf, end, this.extent, this._keys, this._values);
 };
+
+VectorTileLayer.prototype.toGeoJSON = function(size, sx, sy) {
+  const features = Array.from(Array(this._features.length), (v, i) => {
+    return this.feature(i).toGeoJSON(size, sx, sy);
+  });
+
+  return { type: "FeatureCollection", features };
+};
