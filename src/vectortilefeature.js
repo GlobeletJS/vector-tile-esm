@@ -68,11 +68,10 @@ VectorTileFeature.prototype.loadGeometry = function() {
 
     } else if (cmd === 7) {
       // Workaround for https://github.com/mapbox/mapnik-vector-tile/issues/90
-      if (line) {
-        x = line[0].x;
-        y = line[0].y;
-        line.push({ x, y }); // closePolygon
-      }
+      if (line) line.push({ // closePolygon
+        x: line[0].x,
+        y: line[0].y
+      });
 
     } else {
       throw new Error('unknown command ' + cmd);
