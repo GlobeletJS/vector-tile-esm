@@ -1,7 +1,7 @@
 {
   "name": "vector-tile-js",
   "description": "Parses vector tiles",
-  "main": "index.js",
+  "module": "index.js",
   "files": [
     "lib"
   ],
