@@ -46,7 +46,7 @@ function readValueMessage(pbf) {
   return value;
 }
 
-// return feature `i` from this layer as a `VectorTileFeature`
+// return feature 'i' from this layer as a 'VectorTileFeature'
 VectorTileLayer.prototype.feature = function(i) {
   if (i < 0 || i >= this._features.length) throw new Error('feature index out of bounds');
 

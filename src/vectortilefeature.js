@@ -128,6 +128,7 @@ VectorTileFeature.prototype.toGeoJSON = function(size, sx = 0, sy = 0) {
   // Input sx, sy is the origin (top left corner) of the output coordinates
   //  within the (size x size) rendered area of the full tile.
 
+  size = size || this.extent;
   var scale = size / this.extent,
     coords = this.loadGeometry(),
     type = VectorTileFeature.types[this.type];

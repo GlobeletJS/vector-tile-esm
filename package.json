@@ -7,8 +7,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jjhembd/vector-tile-js.git"
+    "url": "git+https://github.com/jjhembd/vector-tile-esm.git"
   },
+  "homepage": "https://github.com/jjhembd/vector-tile-esm",
+  "keywords": [
+    "vector",
+    "tile",
+    "parse",
+    "GeoJSON"
+  ],
   "version": "2.1.0",
   "license": "BSD-3-Clause",
   "scripts": {

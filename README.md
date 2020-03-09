@@ -98,6 +98,6 @@ An object that contains the data for a single feature.
 - **toGeoJSON(size[, sx, sy])** &mdash; returns a GeoJSON representation of the 
   feature. 
   - `size` &mdash; side length of the (square) area over which the tile's 
-    features will be rendered. 
+    features will be rendered. Default: the .extent property of the layer
   - `sx`, `sy` &mdash; optionally specify the origin of the output coordinates 
     within the (size x size) rendered area of the full tile.
