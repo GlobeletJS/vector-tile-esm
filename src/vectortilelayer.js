@@ -61,5 +61,5 @@ VectorTileLayer.prototype.toGeoJSON = function(size, sx, sy) {
     return this.feature(i).toGeoJSON(size, sx, sy);
   });
 
-  return { type: "FeatureCollection", features };
+  return { type: "FeatureCollection", features, extent: this.extent };
 };
