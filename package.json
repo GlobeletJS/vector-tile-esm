@@ -19,10 +19,12 @@
   "version": "2.1.2",
   "license": "BSD-3-Clause",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src",
+    "test": "npm run lint",
     "postversion": "git push && git push --tags"
   },
   "devDependencies": {
-    "pbf": "^3.2.1"
+    "eslint": "^7.32.0",
+    "eslint-config-globeletjs": "^0.0.6"
   }
 }

@@ -6,7 +6,7 @@ export function VectorTile(pbf, end) {
 
 function readTile(tag, layers, pbf) {
   if (tag === 3) {
-    var layer = new VectorTileLayer(pbf, pbf.readVarint() + pbf.pos);
+    const layer = new VectorTileLayer(pbf, pbf.readVarint() + pbf.pos);
     if (layer.length) layers[layer.name] = layer;
   }
 }

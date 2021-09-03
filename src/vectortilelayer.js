@@ -28,11 +28,11 @@ function readLayer(tag, layer, pbf) {
 }
 
 function readValueMessage(pbf) {
-  var value = null,
-  end = pbf.readVarint() + pbf.pos;
+  let value = null;
+  const end = pbf.readVarint() + pbf.pos;
 
   while (pbf.pos < end) {
-    var tag = pbf.readVarint() >> 3;
+    const tag = pbf.readVarint() >> 3;
 
     value = tag === 1 ? pbf.readString() :
       tag === 2 ? pbf.readFloat() :
@@ -48,12 +48,15 @@ function readValueMessage(pbf) {
 
 // return feature 'i' from this layer as a 'VectorTileFeature'
 VectorTileLayer.prototype.feature = function(i) {
-  if (i < 0 || i >= this._features.length) throw new Error('feature index out of bounds');
+  const { _features, extent, _pbf, _keys, _values } = this;
 
-  this._pbf.pos = this._features[i];
+  const lastFeature = _features.length - 1;
+  if (i < 0 || i > lastFeature) throw Error("feature index out of bounds");
 
-  var end = this._pbf.readVarint() + this._pbf.pos;
-  return new VectorTileFeature(this._pbf, end, this.extent, this._keys, this._values);
+  _pbf.pos = _features[i];
+
+  const end = _pbf.readVarint() + _pbf.pos;
+  return new VectorTileFeature(_pbf, end, extent, _keys, _values);
 };
 
 VectorTileLayer.prototype.toGeoJSON = function(size, sx, sy) {

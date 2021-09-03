@@ -1,15 +1,17 @@
 # vector-tile-esm
 
-Reads [Mapbox Vector Tiles] and allows access to the layers and features.
+![tests](https://github.com/GlobeletJS/vector-tile-esm/actions/workflows/node.js.yml/badge.svg)
 
-This module is a fork of [vector-tile-js], with several key changes:
+Reads [Mapbox Vector Tiles][] and allows access to the layers and features.
+
+This module is a fork of [vector-tile-js][], with several key changes:
 - Code is set up for ESM `import`, rather than CJS `require`. This allows it
-  to be imported dynamically (e.g., on [Observable]) without depending on a
-  third-party bundling service such as [bundle.run]
+  to be imported dynamically (e.g., on [Observable][]) without depending on a
+  third-party bundling service such as [bundle.run][]
 - The VectorTileFeature.toGeoJSON() method behaves very differently, returning
   pixel coordinates within a tile, rather than assuming Web Mercator and
   attempting to back-project to longitude and latitude
-- The dependence on the [point-geometry] module has been **removed**
+- The dependence on the [point-geometry][] module has been **removed**
 
 [Mapbox Vector Tiles]: https://github.com/mapbox/vector-tile-spec
 [vector-tile-js]: https://github.com/mapbox/vector-tile-js
@@ -21,7 +23,7 @@ This module is a fork of [vector-tile-js], with several key changes:
 
 ```js
 import { VectorTile } from 'vector-tile-esm';
-import Protobuf from 'pbf';
+import Protobuf from 'pbf-esm';
 
 var tile = new VectorTile(new Protobuf(data));
 
@@ -48,7 +50,7 @@ An object that parses vector tile data and makes it readable.
 ### Constructor
 
 - **new VectorTile(protobuf[, end])** &mdash;
-  parses the vector tile data contained in the given [Protobuf] object,
+  parses the vector tile data contained in the given [Protobuf][] object,
   saving resulting layers in the created object as a `layers` property. 
   Optionally accepts end index.
 

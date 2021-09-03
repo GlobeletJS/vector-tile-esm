@@ -2,11 +2,11 @@ export function classifyRings(rings) {
   // Classifies an array of rings into polygons with outer rings and holes
   if (rings.length <= 1) return [rings];
 
-  var polygons = [];
-  var polygon, ccw;
+  const polygons = [];
+  let polygon, ccw;
 
   rings.forEach(ring => {
-    let area = signedArea(ring);
+    const area = signedArea(ring);
     if (area === 0) return;
 
     if (ccw === undefined) ccw = area < 0;

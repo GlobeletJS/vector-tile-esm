@@ -1,4 +1,4 @@
-import { classifyRings } from "./rings.js";
+import { types, toGeoJSON } from "./geojson.js";
 
 export function VectorTileFeature(pbf, end, extent, keys, values) {
   // Public
@@ -23,32 +23,31 @@ function readFeature(tag, feature, pbf) {
 }
 
 function readTag(pbf, feature) {
-  var end = pbf.readVarint() + pbf.pos;
+  const end = pbf.readVarint() + pbf.pos;
+  const { _keys, _values } = feature;
 
   while (pbf.pos < end) {
-    var key = feature._keys[pbf.readVarint()],
-      value = feature._values[pbf.readVarint()];
+    const key = _keys[pbf.readVarint()];
+    const value = _values[pbf.readVarint()];
     feature.properties[key] = value;
   }
 }
 
-VectorTileFeature.types = ['Unknown', 'Point', 'LineString', 'Polygon'];
-
 VectorTileFeature.prototype.loadGeometry = function() {
-  var pbf = this._pbf;
+  const pbf = this._pbf;
   pbf.pos = this._geometry;
 
-  var end = pbf.readVarint() + pbf.pos,
-    cmd = 1,
-    length = 0,
-    x = 0,
-    y = 0,
-    lines = [],
-    line;
+  const end = pbf.readVarint() + pbf.pos;
+  let cmd = 1;
+  let length = 0;
+  let x = 0;
+  let y = 0;
+  const lines = [];
+  let line;
 
   while (pbf.pos < end) {
     if (length <= 0) {
-      var cmdLen = pbf.readVarint();
+      const cmdLen = pbf.readVarint();
       cmd = cmdLen & 0x7;
       length = cmdLen >> 3;
     }
@@ -74,7 +73,7 @@ VectorTileFeature.prototype.loadGeometry = function() {
       });
 
     } else {
-      throw new Error('unknown command ' + cmd);
+      throw Error("unknown command " + cmd);
     }
   }
 
@@ -84,22 +83,22 @@ VectorTileFeature.prototype.loadGeometry = function() {
 };
 
 VectorTileFeature.prototype.bbox = function() {
-  var pbf = this._pbf;
+  const pbf = this._pbf;
   pbf.pos = this._geometry;
 
-  var end = pbf.readVarint() + pbf.pos,
-  cmd = 1,
-  length = 0,
-  x = 0,
-  y = 0,
-  x1 = Infinity,
-  x2 = -Infinity,
-  y1 = Infinity,
-  y2 = -Infinity;
+  const end = pbf.readVarint() + pbf.pos;
+  let cmd = 1;
+  let length = 0;
+  let x = 0;
+  let y = 0;
+  let x1 = Infinity;
+  let x2 = -Infinity;
+  let y1 = Infinity;
+  let y2 = -Infinity;
 
   while (pbf.pos < end) {
     if (length <= 0) {
-      var cmdLen = pbf.readVarint();
+      const cmdLen = pbf.readVarint();
       cmd = cmdLen & 0x7;
       length = cmdLen >> 3;
     }
@@ -115,59 +114,12 @@ VectorTileFeature.prototype.bbox = function() {
       if (y > y2) y2 = y;
 
     } else if (cmd !== 7) {
-      throw new Error('unknown command ' + cmd);
+      throw Error("unknown command " + cmd);
     }
   }
 
   return [x1, y1, x2, y2];
 };
 
-VectorTileFeature.prototype.toGeoJSON = function(size, sx = 0, sy = 0) {
-  // Input size is the side length of the (square) area over which the
-  //  coordinate space of this tile [0, this.extent] will be rendered.
-  // Input sx, sy is the origin (top left corner) of the output coordinates
-  //  within the (size x size) rendered area of the full tile.
-
-  size = size || this.extent;
-  var scale = size / this.extent,
-    coords = this.loadGeometry(),
-    type = VectorTileFeature.types[this.type];
-
-  function project(line) {
-    return line.map(p => [p.x * scale - sx, p.y * scale - sy]);
-  }
-
-  switch (type) {
-    case "Point":
-      coords = project( coords.map(p => p[0]) );
-      break;
-
-    case "LineString":
-      coords = coords.map(project);
-      break;
-
-    case "Polygon":
-      coords = classifyRings(coords);
-      coords = coords.map(polygon => polygon.map(project));
-      break;
-  }
-
-  if (coords.length === 1) {
-    coords = coords[0];
-  } else {
-    type = 'Multi' + type;
-  }
-
-  var result = {
-    type: "Feature",
-    geometry: {
-      type: type,
-      coordinates: coords
-    },
-    properties: this.properties
-  };
-
-  if ('id' in this) result.id = this.id;
-
-  return result;
-};
+VectorTileFeature.types = types;
+VectorTileFeature.prototype.toGeoJSON = toGeoJSON;
