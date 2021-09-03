@@ -16,7 +16,7 @@
     "parse",
     "GeoJSON"
   ],
-  "version": "2.1.2",
+  "version": "2.1.3",
   "license": "BSD-3-Clause",
   "scripts": {
     "lint": "eslint src",
