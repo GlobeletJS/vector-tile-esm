@@ -1,5 +1,5 @@
 Copyright (c) 2014, Mapbox
-
+ES module translation and later edits are Copyright (c) 2019-2022, Jeshurun Hembd
 
 All rights reserved.
 

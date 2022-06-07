@@ -1,4 +1,4 @@
-import { VectorTileLayer } from "./vectortilelayer";
+import { VectorTileLayer } from "./vectortilelayer.js";
 
 export function VectorTile(pbf, end) {
   this.layers = pbf.readFields(readTile, {}, end);
